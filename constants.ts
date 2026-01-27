@@ -12,7 +12,7 @@ export const MOCK_INBOX_ITEMS: InboxItem[] = [
     lastActivityTime: '1 min ago',
     lastActivityDescription: 'Incoming email request',
     messagePreview: "Hi Kevin, hope you're doing well. Could you please send over the latest SLA document? Our legal team needs to review the service level terms before we can finalize the contract.",
-    aiInsight: "Delayed response will impact deal timeline. Legal has already approved the required documents."
+    aiInsight: "Legal has approved the required document. Kevin can send it to Daniel."
   },
   {
     id: '2',
