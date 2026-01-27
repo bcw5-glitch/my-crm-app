@@ -284,6 +284,39 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({
     }
   };
 
+  const getTimelineEvents = (id: string) => {
+    const events = [];
+    
+    if (id === '1') { // Spotify
+        events.push(
+            { id: 't1-1', type: 'system', title: 'Legal Approval', description: 'Document SpotifySecurityDoc_v2.pdf approved by Legal Team', user: 'Tanisha Park', time: 'Today, 9:42 AM', icon: ShieldCheck, color: 'bg-green-100 text-green-700' },
+            { id: 't1-2', type: 'email', title: 'Email Received', description: 'From: Daniel Ek "Enterprise license latest SLA"', user: 'Daniel Ek', time: 'Today, 9:00 AM', icon: Mail, color: 'bg-blue-100 text-blue-700' },
+            { id: 't1-3', type: 'task', title: 'Task Completed', description: 'Review Security Requirements', user: 'Elena Fisher', time: 'Yesterday, 4:30 PM', icon: CheckSquare, color: 'bg-gray-100 text-gray-700' },
+            { id: 't1-4', type: 'stage', title: 'Stage Changed', description: 'Moved to "Legal" (was "Negotiation")', user: 'Kevin Chen', time: 'Yesterday, 2:00 PM', icon: ArrowUpRight, color: 'bg-purple-100 text-purple-700' }
+        );
+    } else if (id === '2') { // Airbnb
+        events.push(
+            { id: 't2-1', type: 'email', title: 'Email Sent', description: 'To: Brian Chesky "Partnership Proposal - Airbnb"', user: 'Kevin Chen', time: '2 days ago', icon: Mail, color: 'bg-blue-100 text-blue-700' },
+            { id: 't2-2', type: 'note', title: 'Note Added', description: 'Brian mentioned he is traveling until Thursday. Do not bump before Friday.', user: 'Kevin Chen', time: '3 days ago', icon: StickyNote, color: 'bg-yellow-100 text-yellow-700' },
+            { id: 't2-3', type: 'stage', title: 'Stage Changed', description: 'Moved to "Proposal"', user: 'Kevin Chen', time: 'Nov 10', icon: ArrowUpRight, color: 'bg-purple-100 text-purple-700' }
+        );
+    } else if (id === '3') { // Stripe
+        events.push(
+            { id: 't3-1', type: 'system', title: 'Task Completed', description: 'Send NDA - Stripe (Auto-completed via DocuSign)', user: 'System', time: '1 hr ago', icon: CheckSquare, color: 'bg-green-100 text-green-700' },
+            { id: 't3-2', type: 'file', title: 'File Uploaded', description: 'Stripe_Mutual_NDA_Executed.pdf', user: 'System', time: '1 hr ago', icon: FileText, color: 'bg-red-100 text-red-700' },
+             { id: 't3-3', type: 'task', title: 'Task Created', description: 'Send NDA - Stripe', user: 'Kevin Chen', time: 'Yesterday', icon: Plus, color: 'bg-gray-100 text-gray-700' }
+        );
+    } else if (id === '4') { // Figma
+         events.push(
+            { id: 't4-1', type: 'note', title: 'Note Added', description: 'QBR Summary: Met with design ops. Budget approval expected.', user: 'Sarah Jones', time: '1 hr ago', icon: StickyNote, color: 'bg-yellow-100 text-yellow-700' },
+            { id: 't4-2', type: 'call', title: 'Call Logged', description: 'QBR with Design Ops Team', user: 'Sarah Jones', time: '2 hrs ago', icon: Phone, color: 'bg-indigo-100 text-indigo-700' },
+            { id: 't4-3', type: 'email', title: 'Email Received', description: 'Meeting Confirmation', user: 'Jamal Brown', time: 'Yesterday', icon: Mail, color: 'bg-blue-100 text-blue-700' }
+        );
+    }
+    
+    return events;
+  };
+
   const getWorkspaceContext = (id: string) => {
     switch(id) {
         case '1': return { type: 'Opportunity', name: 'Spotify Enterprise License', sub: '$120,000 ARR • Legal Stage', icon: Target, color: 'gray' };
@@ -307,6 +340,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({
   const resolvedContent = item ? getResolvedContent(item.id) : null;
   const workspaceContext = item ? getWorkspaceContext(item.id) : null;
   const contextualFile = item ? getContextualFile(item.id) : null;
+  const timelineEvents = item ? getTimelineEvents(item.id) : [];
 
   const renderHeaderIcon = () => {
     let colorClass = 'bg-gray-100 text-gray-600';
@@ -777,6 +811,49 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({
                      <p className="text-xs text-gray-500 mt-1">Drag and drop or click to browse</p>
                  </div>
              </div>
+          )}
+
+          {activeTab === 'Timeline' && (
+            <div className="p-6 animate-in fade-in duration-300">
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Activity History</h3>
+                    <button className="text-xs text-blue-600 hover:text-blue-800 font-medium bg-blue-50 px-2 py-1 rounded">Filter</button>
+                </div>
+                
+                <div className="relative border-l border-gray-200 ml-3 space-y-8 pb-4">
+                    {timelineEvents.map((event) => (
+                        <div key={event.id} className="relative pl-8 group">
+                            {/* Icon Bubble */}
+                            <div className={`absolute -left-[17px] top-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center ${event.color} shadow-sm z-10`}>
+                                <event.icon className="w-3.5 h-3.5" />
+                            </div>
+                            
+                            {/* Content */}
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between group-hover:bg-gray-50/50 rounded-lg -ml-2 p-2 -mt-2 transition-colors">
+                                <div>
+                                    <div className="text-sm font-semibold text-gray-900">{event.title}</div>
+                                    <div className="text-sm text-gray-600 mt-0.5 leading-relaxed">{event.description}</div>
+                                    <div className="text-xs text-gray-400 mt-1.5 flex items-center">
+                                        <div className="w-4 h-4 bg-gray-200 rounded-full flex items-center justify-center text-[9px] font-bold text-gray-500 mr-1.5">
+                                            {event.user.charAt(0)}
+                                        </div>
+                                        <span className="font-medium text-gray-500 mr-1.5">{event.user}</span>
+                                        <span>• {event.time}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    
+                    {/* Start Node */}
+                    <div className="relative pl-8">
+                         <div className="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center">
+                             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                         </div>
+                         <div className="text-xs text-gray-400 font-medium pt-0.5">Created</div>
+                    </div>
+                </div>
+            </div>
           )}
 
           {activeTab === 'Emails' && (
