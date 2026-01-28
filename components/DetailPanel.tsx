@@ -600,7 +600,7 @@ export const DetailPanel: React.FC<DetailPanelProps> = ({
                                 onClick={onDismiss}
                                 className="w-full py-2 bg-green-600 border border-transparent text-white text-sm font-medium rounded-md shadow-sm hover:bg-green-700 transition-colors"
                            >
-                               Dismiss from inbox
+                               Mark as Complete
                            </button>
                        </div>
                    ) : (
