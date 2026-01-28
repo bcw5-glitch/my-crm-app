@@ -281,7 +281,7 @@ export const InboxView: React.FC<InboxViewProps> = ({ items, onDismissItem }) =>
                     </div>
                     <div className="flex-1">
                         <h4 className="font-semibold text-gray-900 text-[15px]">Signal Resolved</h4>
-                        <p className="text-[14px] text-gray-500">Dismissed. You can find this later in Recently Resolved.</p>
+                        <p className="text-[14px] text-gray-500">Complete! Related workspaces have been updated.</p>
                     </div>
                     <button 
                         onClick={() => setShowToast(false)}
